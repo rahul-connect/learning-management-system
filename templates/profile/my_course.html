@@ -1,0 +1,99 @@
+{% extends '../base/base.html' %}
+
+{%block content%}
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+
+    </div>
+
+
+
+    <div class="container-fluid mt--7">
+      <div class="row">
+        <!-- Start from here -->
+
+          <div class="col-xl-10 order-xl-1 pl-lg-9">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-12 text-center">
+                  <h1 class="mb-0">{{course_name}}</h1>
+                </div>
+                  <div class="col-sm-12">
+                      {%if messages%}
+                          {%for message in messages%}
+                            <div class="alert alert-{%if message.tags == 'error' %}danger{%else%}{{message.tags}}{%endif%} alert-dismissible fade show mt-4" role="alert">{{message}}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+                          {%endfor%}
+                      {%endif%}
+                  </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+
+            	{%for module in modules%}            	
+            	<div class="panel-group">
+				  <div class="panel panel-default">
+				    <div class="panel-heading">
+				      <h1 class="panel-title">
+				      	<div class="row">
+
+				      		<div class="col-9">
+				      			<a data-toggle="collapse" href="#{{module|cut:" "}}">{{module}} </a>
+
+				      		</div>
+				      		<div class="col-3">
+                    {%if check_quiz.count > 0%}
+                      {%if module.quiz == 1%}
+                         <a class="btn btn-success " href="{%url 'quiz_result' module.id %}"> View Result </a>
+                      {%else%}
+                        <a class="btn btn-warning" href="{%url 'start_quiz' module.id %}"> Start Quiz</a>
+                      {%endif%}
+                    {%else%}
+                        <a class="btn btn-warning" href="{%url 'start_quiz' module.id %}"> Start Quiz</a>
+                    {%endif%}
+				      			<a data-toggle="collapse" href="#{{module|cut:" "}}"><i class="ni ni-bold-down text-right"></i></a>
+				      		</div>
+				        	
+				  		  </div>
+				      </h1>
+				    </div>
+				    <div id="{{module|cut:" "}}" class="panel-collapse collapse">
+				    	{%for section in sections%}
+				    		{%if section.module == module%}
+						      <a href="{%url 'view_section' section.id %}"><div class="panel-body"><h2><i class="ni ni-hat-3 text-grey"></i>&emsp;{{section}}</h2></div></a>
+						      <div class="panel-footer"></div>
+						    {%endif%}
+					        
+				      {%endfor%}
+
+				    </div>
+				  </div>
+				</div>
+				<hr>
+
+				{%endfor%}
+
+              
+            </div>
+          </div><br>
+
+          <!-- Table -->
+      
+
+
+
+
+        </div>
+
+
+
+
+
+
+      </div>
+
+    
+    
+
+    {%endblock%}

@@ -1,0 +1,94 @@
+{% extends '../base/base.html' %}
+
+{%block content%}
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+
+    </div>
+
+
+
+    <div class="container-fluid mt--7">
+      <div class="row">
+        <!-- Start from here -->
+
+          <div class="col-xl-10 order-xl-1 pl-lg-9">
+         
+
+          <!-- Table -->
+      <div class="row">
+        <div class="col">
+          <div class="card shadow" style="padding: 20px;">
+            <div class="card-header border-0">
+               <div class="col-sm-12">
+                      {%if messages%}
+                          {%for message in messages%}
+                            <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">{{message}}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+                          {%endfor%}
+                      {%endif%}
+                  </div>
+              <h2 class="mb-0 text-center">ALL ASSIGNMENTS</h2><hr>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-items-center table-flush datatable">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Student</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Submtted On</th>
+                    <th scope="col">Action</th>
+                
+                  </tr>
+                </thead>
+                <tbody>
+                  {%for assignment in assignments%}
+                  <tr>
+                    <th scope="row">
+                      <div class="media align-items-center"> 
+                        <div class="media-body">
+                          <span class="mb-0 text-sm">
+                          <a href="{% url 'student_detail' assignment.student.id%}">
+                          {{assignment.student.first_name|upper}} {{assignment.student.last_name|upper}}
+                        </a>
+                        </span>
+                        </div>
+                      </div>
+                    </th>
+                    <td>
+                      {{assignment.section}}
+                    </td>
+                    <td>
+                      {{assignment.submitted_on}}
+                    </td>
+                    <td>
+                      <a href="{{ MEDIA_URL }}{{assignment.file}}" class="btn btn-warning">View</a>
+                    </td>
+                  
+                  </tr>
+                  {%endfor%}
+                
+ 
+
+                </tbody>
+              </table>
+            </div>
+           
+          </div>
+        </div>
+      </div>
+
+
+
+        </div>
+
+
+
+
+
+
+      </div>
+
+    
+    
+
+    {%endblock%}

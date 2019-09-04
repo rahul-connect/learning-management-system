@@ -1,0 +1,97 @@
+{% extends '../base/base.html' %}
+
+{%block content%}
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+
+    </div>
+
+
+
+    <div class="container-fluid mt--7">
+      <div class="row">
+        <!-- Start from here -->
+
+          <div class="col-xl-10 order-xl-1 pl-lg-9">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-12 text-center">
+                  <h1 class="mb-0 text-danger"><b>RESULT</b></h1>
+                </div>
+                  <div class="col-sm-12">
+                      {%if messages%}
+                          {%for message in messages%}
+                            <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">{{message}}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+                          {%endfor%}
+                      {%endif%}
+                  </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+                <h2>Module Name : {{result.module}}</h2><hr>
+                <h2>Total Questions : {{result.total_question}}</h2>
+                <h2>Total Correct : {{result.correct}}</h2>
+                <h2>Total Wrong : {{result.wrong}}</h2>
+
+                <hr>
+                <h1 class="text-center">Your Answers</h1>
+                {%for quiz in get_quiz%}
+                  <h2>{{forloop.counter}}. {{quiz.question}}</h2>
+                  <div>
+                    <span style="font-weight: bold;"><i>Correct Answer : </i></span>
+                  {%if quiz.correct == '0'%}
+                     {{quiz.optionA}}
+                  {%elif quiz.correct == '1'%}
+                     {{quiz.optionB}}
+                  {%elif quiz.correct == '2'%}
+                     {{quiz.optionC}}
+                  {%elif quiz.correct == '3'%}
+                     {{quiz.optionD}}
+                  {%endif%}
+
+                  {%for answer in get_answers%}
+
+                    {%if answer.quiz.id == quiz.id%}
+
+                      <b style="margin-left: 30px;" class="{%if answer.is_correct == '0'%}text-danger{%else%}text-success{%endif%}">Your Answer:  </b>
+                        {%if answer.answer == '0'%}
+                          {{quiz.optionA}}
+                        {%elif answer.answer == '1'%}
+                          {{quiz.optionB}}
+                        {%elif answer.answer == '2'%}
+                          {{quiz.optionC}}
+                        {%elif answer.answer == '3'%}
+                          {{quiz.optionD}}
+                        {%endif%}
+                     
+                    {%endif%}
+
+                  {%endfor%}
+                  </div>
+                  <br>
+
+                    
+                {%endfor%}
+
+            </div>
+          </div><br>
+
+          <!-- Table -->
+
+
+
+        </div>
+
+
+
+
+
+
+      </div>
+
+    
+    
+
+    {%endblock%}

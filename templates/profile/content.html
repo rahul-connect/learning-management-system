@@ -1,0 +1,146 @@
+{% extends '../base/base.html' %}
+{%load static%}
+{%block content%}
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+
+    </div>
+
+
+
+    <div class="container-fluid mt--7">
+      <div class="row">
+        <!-- Start from here -->
+
+          <div class="col-xl-10 order-xl-1 pl-lg-9">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-12 text-center">
+                  <h1 class="mb-3">{{get_section}}</h1><button class="btn btn-warning  mb-0" data-toggle="modal" data-target="#uploadAssignment">Upload Assignment</button>
+                </div>
+                  <div class="col-sm-12">
+                      {%if messages%}
+                          {%for message in messages%}
+                            <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">{{message}}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+                          {%endfor%}
+                      {%endif%}
+                  </div>
+              </div>
+            </div>
+
+
+
+            <div class="card-body">
+               <!-- Nav tabs -->
+
+              <ul class="nav nav-tabs nav-justified">
+
+                <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#video"><h2><i class="ni ni-tv-2 text-right text-green"></i>&emsp;VIDEOS</h2></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#pdf"><h2><i class="ni ni-cloud-download-95 text-right text-red"></i>&emsp;PDF</h2></a>
+                </li>
+           
+
+              </ul>
+
+
+              <!-- Tab panes -->
+              <div class="tab-content"><br>
+                <div class="tab-pane container active" id="video">
+                  
+              {%for video in videos%}             
+              <div class="panel-group">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h1 class="panel-title">
+                <div class="row">
+
+                  <div class="col-11">
+                    <a data-toggle="collapse" href="#{{video.title|cut:" "}}"> {{ forloop.counter }}. {{video.title}} </a>
+                  </div>
+                  <div class="col-1">
+                    <a data-toggle="collapse" href="#{{video.title|cut:" "}}"><i class="ni ni-button-play text-right"></i></a>
+                  </div>
+                  
+                </div>
+              </h1>
+            </div>
+            <div id="{{video.title|cut:" "}}" class="panel-collapse collapse">
+              <div class="panel-body"><iframe width="100%" height="500px" src="{{video.video}}?rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+            </div>
+
+          </div>
+        </div>
+        <hr>
+        {%endfor%}
+
+                </div>
+                <div class="tab-pane container fade" id="pdf">
+                  
+                  {%for pdf in pdfs%}
+                    <a href="{{ MEDIA_URL }}/upload/{{pdf.file}}"><h2><img src="{%static 'img/pdf.png' %}"> &emsp;{{pdf.title|upper}}</h2></a>
+                  {%endfor%}
+                </div>
+              </div>
+
+
+
+              
+            </div>
+          </div><br>
+
+          <!-- Table -->
+      
+
+
+
+
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="uploadAssignment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel">Upload Assignment</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                 <form method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <input type="hidden" name="section" value="{{get_section.id}}">
+                  <input type="hidden" name="redirect_page" value="{{ request.get_full_path }}">
+                  <div class="form-group">
+                  <input type="file" name="assignment" class="form-control" required="required">
+                  <small class="text-grey">If you want to upload multiple files. Make it a Zip file or upload one by one.</small>
+                </div>
+
+                  <div class="form-group">
+                  <button type="submit" class="btn btn-success">Upload</button>
+                </div>
+                </form>             
+                 </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+       
+
+
+
+
+
+
+      </div>
+
+    
+    
+
+    {%endblock%}

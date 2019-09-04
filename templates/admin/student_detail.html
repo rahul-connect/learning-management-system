@@ -1,0 +1,282 @@
+{% extends '../base/base.html' %}
+{%load static%}
+{%block content%}
+    <!-- Header -->
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+
+    </div>
+
+
+
+    <div class="container-fluid mt--7">
+      <div class="row">
+        <!-- Start from here -->
+
+          <div class="col-xl-10 order-xl-1 pl-lg-9">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">Student Information</h3>
+                </div>
+                  <div class="col-sm-12">
+                      {%if messages%}
+                          {%for message in messages%}
+                            <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">{{message}}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+                          {%endfor%}
+                      {%endif%}
+                  </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+               <!-- Nav tabs -->
+
+              <ul class="nav nav-tabs nav-justified">
+
+                <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#detail"><h2><i class="ni ni-circle-08 text-right text-green"></i>&emsp;Personal Details</h2></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#assignment"><h2><i class="ni ni-single-copy-04 text-right text-red"></i>&emsp;Assignments</h2></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#quiz"><h2><i class="ni ni-trophy text-right text-blue"></i>&emsp;Quiz</h2></a>
+                </li>
+           
+
+              </ul>
+
+
+              <!-- Tab panes -->
+              <div class="tab-content"><br>
+
+                <div class="tab-pane container active" id="detail" style="margin-top: 50px;">
+              <div class="row">
+        <div class="col-xl-12">
+          <div class="card card-profile shadow">
+            <div class="row justify-content-center">
+              <div class="col-lg-3 order-lg-2">
+                <div class="card-profile-image">
+                  <a href="#">
+                    <img src="{%static 'img/user.png'%}" class="rounded-circle">
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+              <div class="d-flex justify-content-between">
+                <!--<a href="#" class="btn btn-sm btn-info mr-4">Connect</a>
+                <a href="#" class="btn btn-sm btn-default float-right">Message</a>-->
+              </div>
+            </div>
+            <div class="card-body pt-0 pt-md-4">
+              <div class="row">
+                <div class="col">
+
+                  <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+
+                    <div>
+                      <span class="heading">{{assignments.count}}</span>
+                      <span class="description">Assignments Completed</span>
+                    </div>
+                    <div>
+                      <span class="heading">{{quiz_solved.count}}</span>
+                      <span class="description">Quiz Solved</span>
+                    </div>
+                    <!--<div>
+                      <span class="heading">89</span>
+                      <span class="description">Comments</span>
+                    </div>-->
+                  </div>
+                </div>
+              </div>
+              <div class="text-center">
+                <h2>
+                  {{student.first_name|upper}} {{student.last_name|upper}}<span class="font-weight-light">, {{age}}</span>
+                </h2>
+                <div class="h4 font-weight-300">
+                  <i class="ni ni-square-pin mr-2"></i>{{student.address}}
+                </div>
+                 <div class="h5 font-weight-300">
+                  <i class="ni ni-hat-3 mr-2"></i>{{student.qualification}}
+                </div>
+                <div class="h5 font-weight-300">
+                  <i class="ni ni-briefcase-24 mr-2"></i>{{student.experience}} Year of Experience
+                </div>
+                <div class="h3 mt-4">
+                  <i class="ni ni-badge mr-2"></i>{{student.course}}
+                </div>
+                <div>
+                  <i class="ni education_hat mr-2"></i>
+                  {%if student.course_type == '0'%}
+                    Basic Training
+                  {%else%}
+                    On Job Training
+
+                  {%endif%}
+                
+                </div>
+                 <div>
+                  <i class="ni ni-credit-card mr-2 mt-1"></i>Rs. {{student.course_fee}}
+                </div><br>
+                <div>
+                 <i class="ni ni-chat-round text-black"></i> {{student.contact}}
+                </div>
+                <div>
+                 <i class="ni ni-email-83 text-black"></i> {{student.email}}
+                </div>
+                <hr class="my-4" />
+                <p><b>Batch :</b> {{student.batch}}</p>
+                <p><b>Center :</b> {{student.batch.center}}</p>
+                <p><b>Counsellor :</b> {{student.counsellor.first_name}} {{student.counsellor.last_name}}</p>
+                <p><b>Trainer :</b> {{student.batch.trainer.first_name|upper}} {{student.batch.trainer.last_name|upper}}</p>
+                <hr class="my-4" />
+                {%if student.tms_id == '0'%}
+                  <a href="{%url 'create_user' student.id %}" class="btn btn-warning">Create TMS ID</a>
+                {%else%}
+                  <h4><b class="text-success">TMS ID Created Successfully</b></h4>
+                {%endif%}
+
+              </div>
+            </div>
+          </div>
+        </div>
+    
+      </div>
+
+            
+                  
+          
+
+                </div>
+
+                <div class="tab-pane container fade" id="assignment">
+                  <div class="card shadow">
+            
+            <div class="table-responsive">
+              <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Module</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Submtted On</th>
+                    <th scope="col">View</th>
+                
+                  </tr>
+                </thead>
+                <tbody>
+                  {%for assignment in assignments%}
+                  <tr>
+                    <th scope="row">
+                      <div class="media align-items-center"> 
+                        <div class="media-body">
+                          <span class="mb-0 text-sm">{{assignment.section.module|upper}}</span>
+                        </div>
+                      </div>
+                    </th>
+                    <td>
+                      {{assignment.section}}
+                    </td>
+                    <td>
+                      {{assignment.submitted_on}}
+                    </td>
+                    <td>
+                      <a href="{{ MEDIA_URL }}{{assignment.file}}" class="btn btn-warning">View</a>
+                    </td>
+                  
+                  </tr>
+                  {%endfor%}
+                
+ 
+
+                </tbody>
+              </table>
+            </div>
+           
+          </div>
+
+              
+
+              </div>
+               <div class="tab-pane container fade" id="quiz">
+                <div class="card shadow">
+            <div class="table-responsive">
+              <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Module</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Correct</th>
+                    <th scope="col">Incorrect</th>
+                    <th scope="col">Date</th>
+                
+                  </tr>
+                </thead>
+                <tbody>
+                  {%for quiz in quiz_solved%}
+                  <tr>
+                    <th scope="row">
+                      <div class="media align-items-center"> 
+                        <div class="media-body">
+                          <span class="mb-0 text-sm">{{quiz.module|upper}}</span>
+                        </div>
+                      </div>
+                    </th>
+                    <td>
+                      {{quiz.total_question}}
+                    </td>
+                    <td>
+                      {{quiz.correct}}
+                    </td>
+                    <td>
+                     {{quiz.wrong}}
+                    </td>
+                     <td>
+                     {{quiz.date}}
+                    </td>
+                  
+                  </tr>
+                  {%endfor%}
+                
+ 
+
+                </tbody>
+              </table>
+            </div>
+           
+          </div>
+
+           
+
+              </div>
+
+
+
+              </div>
+
+
+
+              
+            </div>
+          </div><br>
+
+          <!-- Table -->
+      
+
+
+
+
+        </div>
+
+
+
+
+
+
+      </div>
+
+    
+    
+
+    {%endblock%}
